@@ -2,6 +2,13 @@ def __main__(argv)
   if argv[1] == "version"
     puts "v#{SidekiqJobCount::VERSION}"
   else
-    puts "Hello World"
+    r = Redis.new argv[1], argv[2].to_i
+    namespace = argv[3]
+    key = ""
+    key += "#{namespace}:" if namespace
+    key += 'queues'
+    queues = r.scard key
+    r.close
+    puts "#{key}\t#{queues}\t#{Time.now.to_i}"
   end
 end
