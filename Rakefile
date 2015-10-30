@@ -2,7 +2,7 @@ file :mruby do
   sh "git clone --depth=1 https://github.com/mruby/mruby"
 end
 
-APP_NAME=ENV["APP_NAME"] || "sidekiq-job-count"
+APP_NAME=ENV["APP_NAME"] || "mackerel-plugin-sidekiq-job-count"
 APP_ROOT=ENV["APP_ROOT"] || Dir.pwd
 # avoid redefining constants in mruby Rakefile
 mruby_root=File.expand_path(ENV["MRUBY_ROOT"] || "#{APP_ROOT}/mruby")

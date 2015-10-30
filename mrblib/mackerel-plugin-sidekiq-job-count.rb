@@ -10,10 +10,10 @@ def __main__(argv)
     key += 'queues'
 
     queues = r.smembers key
-    jobs = queues.map{|queue| "#{key[0...-1]}:#{queue}" }.map{|k| r.llen k }.inject(0){|s, v| s + v}
+    enqueued = queues.map{|queue| "#{key[0...-1]}:#{queue}" }.map{|k| r.llen k }.inject(0){|s, v| s + v}
 
     r.close
 
-    puts "#{key}\t#{jobs}\t#{Time.now.to_i}"
+    puts "sidekiq_job_count.enqueued\t#{enqueued}\t#{Time.now.to_i}"
   end
 end
