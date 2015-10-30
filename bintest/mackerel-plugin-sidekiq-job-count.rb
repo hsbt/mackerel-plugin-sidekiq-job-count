@@ -1,6 +1,6 @@
 require 'open3'
 
-BIN_PATH = File.join(File.dirname(__FILE__), "../mruby/bin/sidekiq-job-count")
+BIN_PATH = File.join(File.dirname(__FILE__), "../mruby/bin/mackerel-plugin-sidekiq-job-count")
 
 assert('hello') do
   output, status = Open3.capture2(BIN_PATH)
