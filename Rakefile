@@ -1,5 +1,11 @@
+require 'fileutils'
+
+MRUBY_VERSION="1.2.0"
+
 file :mruby do
-  sh "git clone --depth=1 https://github.com/mruby/mruby"
+  #sh "git clone --depth=1 https://github.com/mruby/mruby"
+  sh "curl -L --fail --retry 3 --retry-delay 1 https://github.com/mruby/mruby/archive/1.2.0.tar.gz -s -o - | tar zxf -"
+  FileUtils.mv("mruby-1.2.0", "mruby")
 end
 
 APP_NAME=ENV["APP_NAME"] || "mackerel-plugin-sidekiq-job-count"
