@@ -17,13 +17,13 @@ MRuby::Build.new do |conf|
 end
 
 if RUBY_PLATFORM =~ /linux/
-  MRuby::Build.new('x86_64-pc-linux-gnu') do |conf|
+  MRuby::Build.new('linux_amd64') do |conf|
     toolchain :gcc
 
     gem_config(conf)
   end
 else
-  MRuby::Build.new('x86_64-apple-darwin14') do |conf|
+  MRuby::Build.new('darwin_amd64') do |conf|
     toolchain :clang
 
     gem_config(conf)

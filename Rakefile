@@ -65,6 +65,29 @@ desc "run all tests"
 Rake::Task['test'].clear
 task :test => ["test:mtest", "test:bintest"]
 
+desc "package"
+task :package do
+  FileUtils.rm_rf "../pkg"
+  FileUtils.mkdir_p "../pkg" unless File.exist? "pkg"
+
+  # build linux_amd64
+  sh "rake clean"
+  sh "docker-compose up compile"
+
+  # build darwin_amd64
+  sh "rake clean"
+  sh "rake"
+
+  package = "mackerel-plugin-sidekiq-job-count"
+  require_relative 'mrblib/mackerel-plugin-sidekiq-job-count/version'
+
+  %w[linux_amd64 darwin_amd64].each do |target|
+    binname = "../mruby/build/#{target}/bin/#{package}"
+    sh "zip #{binname}.zip #{binname}" unless File.exist? "#{binname}.zip"
+    FileUtils.mv "#{binname}.zip", "../pkg/#{package}_#{SidekiqJobCount::VERSION}_#{target}.zip"
+  end
+end
+
 desc "cleanup"
 task :clean do
   sh "rake deep_clean"
