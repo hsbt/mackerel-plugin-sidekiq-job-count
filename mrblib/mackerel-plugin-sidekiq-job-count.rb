@@ -5,12 +5,11 @@ def __main__(argv)
     r = Redis.new argv[1], argv[2].to_i
     namespace = argv[3]
 
-    key = ""
-    key += "#{namespace}:" if namespace
-    key += 'queues'
+    prefix = ""
+    prefix += "#{namespace}:" if namespace
 
-    queues = r.smembers key
-    enqueued = queues.map{|queue| "#{key[0...-1]}:#{queue}" }.map{|k| r.llen k }.inject(0){|s, v| s + v}
+    queues = r.smembers prefix + "queues"
+    enqueued = queues.map{|queue| "#{prefix}queue:#{queue}" }.map{|k| r.llen k }.inject(0){|s, v| s + v}
 
     r.close
 
