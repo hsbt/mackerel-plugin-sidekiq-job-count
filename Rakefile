@@ -78,13 +78,12 @@ task :package do
   sh "rake clean"
   sh "rake"
 
-  package = "mackerel-plugin-sidekiq-job-count"
   require_relative 'mrblib/mackerel-plugin-sidekiq-job-count/version'
 
   %w[linux_amd64 darwin_amd64].each do |target|
-    binname = "../mruby/build/#{target}/bin/#{package}"
+    binname = "../mruby/build/#{target}/bin/#{APP_NAME}"
     sh "zip #{binname}.zip #{binname}" unless File.exist? "#{binname}.zip"
-    FileUtils.mv "#{binname}.zip", "../pkg/#{package}_#{SidekiqJobCount::VERSION}_#{target}.zip"
+    FileUtils.mv "#{binname}.zip", "../pkg/#{APP_NAME}_#{SidekiqJobCount::VERSION}_#{target}.zip"
   end
 end
 
