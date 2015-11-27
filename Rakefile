@@ -67,18 +67,18 @@ task :test => ["test:mtest", "test:bintest"]
 
 desc "package"
 task :package do
+  require_relative 'mrblib/mackerel-plugin-sidekiq-job-count/version'
+
   FileUtils.rm_rf "../pkg"
   FileUtils.mkdir_p "../pkg" unless File.exist? "pkg"
 
   # build linux_amd64
-  sh "rake clean"
+  sh "docker-compose up clean"
   sh "docker-compose up compile"
 
   # build darwin_amd64
   sh "rake clean"
   sh "rake"
-
-  require_relative 'mrblib/mackerel-plugin-sidekiq-job-count/version'
 
   %w[linux_amd64 darwin_amd64].each do |target|
     binname = "../mruby/build/#{target}/bin/#{APP_NAME}"
