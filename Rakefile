@@ -81,9 +81,10 @@ task :package do
   sh "rake"
 
   %w[linux_amd64 darwin_amd64].each do |target|
-    binname = "../mruby/build/#{target}/bin/#{APP_NAME}"
-    sh "zip #{binname}.zip #{binname}" unless File.exist? "#{binname}.zip"
-    FileUtils.mv "#{binname}.zip", "../pkg/#{APP_NAME}_#{SidekiqJobCount::VERSION}_#{target}.zip"
+    Dir.chdir "../mruby/build/#{target}/bin" do
+      sh "zip #{APP_NAME}.zip #{APP_NAME}" unless File.exist? "#{APP_NAME}.zip"
+      FileUtils.mv "#{APP_NAME}.zip", "../../../../pkg/#{APP_NAME}_#{SidekiqJobCount::VERSION}_#{target}.zip"
+    end
   end
 end
 
